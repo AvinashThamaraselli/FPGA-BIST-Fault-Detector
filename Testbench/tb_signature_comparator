@@ -1,0 +1,45 @@
+`timescale 1ns/1ps
+
+module tb_signature_comparator;
+
+    reg [15:0] expected_signature;
+    reg [15:0] actual_signature;
+
+    wire pass;
+    wire fail;
+
+    signature_comparator uut (
+        .expected_signature(expected_signature),
+        .actual_signature(actual_signature),
+        .pass(pass),
+        .fail(fail)
+    );
+
+    initial begin
+        $display("--------------------------------");
+        $display("SIGNATURE COMPARATOR TEST");
+        $display("--------------------------------");
+
+        expected_signature = 16'hA5C3;
+        actual_signature   = 16'hA5C3;
+        #10;
+        $display("TEST 1: EXPECTED=%h ACTUAL=%h PASS=%b FAIL=%b", expected_signature, actual_signature, pass, fail);
+
+        expected_signature = 16'hA5C3;
+        actual_signature   = 16'hA5C2;
+        #10;
+        $display("TEST 2: EXPECTED=%h ACTUAL=%h PASS=%b FAIL=%b", expected_signature, actual_signature, pass, fail);
+
+        expected_signature = 16'h1234;
+        actual_signature   = 16'hABCD;
+        #10;
+        $display("TEST 3: EXPECTED=%h ACTUAL=%h PASS=%b FAIL=%b", expected_signature, actual_signature, pass, fail);
+
+        $display("--------------------------------");
+        $display("COMPARATOR TEST COMPLETE");
+        $display("--------------------------------");
+
+        $finish;
+    end
+
+endmodule
